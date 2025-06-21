@@ -1,5 +1,5 @@
 # Based on https://github.com/j-rivero/ionic_testing/blob/main/Dockerfile
-FROM ros:rolling
+FROM osrf/ros:rolling-desktop
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get install -y dirmngr curl git python3 python3-docopt python3-yaml python3-distro python3-pip sudo mesa-utils \
@@ -21,12 +21,13 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Install nudged via pip (required by rmf_fleet_adapter_python)
-RUN pip install nudged --break-system-packages
+# RUN pip install nudged --break-system-packages
 
 RUN mkdir -p /root/ws/src
 WORKDIR /root/ws
-COPY ionic_demo.repos .
-RUN vcs import --input ionic_demo.repos src
+COPY my_dependencies.repos .
+RUN vcs import --input my_dependencies.repos src
+COPY ros2_ws/src/ionic_demo .
 RUN rosdep update
 RUN apt-get update \
     && rosdep install --from-paths src --ignore-src -r --rosdistro rolling -y \

@@ -1,45 +1,21 @@
-# ionic_demo
-Ionic demo world and resources
+# Gazebo Ionic Demo
+## Ionic demo world and resources
 
-![](media/ionic-demo-world.png)
+cd ~/gazebo-ionic-demo/ros2_ws/
+colcon build
 
-Usage:
+source install/setup.bash
+
+## Example
 
 ```
 cd ~/gazebo-ionic-demo/ros2_ws/src/ionic_demo/worlds
 gz sim -v 4 ionic.sdf
 ```
 
-# Running the navigation demo
+## Launch files 
 
-![](media/ionic-nav2-demo.gif)
-
-This demo requires at least [ROS 2 Jazzy](https://docs.ros.org/en/jazzy/index.html).
-
-Create a new colcon workspace, install dependencies and build the packages,
-
-
-Launch the demo,
-
-```
-source ~/gazebo-ionic-demo/ros2_ws/install/setup.bash
 ros2 launch ionic_demo ionic_navigation_demo_launch.py headless:=0
-```
 
-On rviz, initialize the position at the origin towards the right of the map, using the `2D Pose Estimate button`.
+ros2 launch ionic_demo world_launch.py headless:=0
 
-![](media/rviz-estimate.png)
-
-Navigation commands can now be sent via the `Nav2 Goal` button.
-
-![](media/rviz-navigate.png)
-
-
-# Troubleshooting
-
-* If the demo world is laggy, try disabling global illumination by editing the
-`ionic_demo/worlds/ionic.sdf` world file and setting the
-`GlobalIllumincationVct` plugin's [<enabled>](https://github.com/gazebosim/ionic_demo/blob/2350def5a74f3d75e131711fedd217d57527a64f/ionic_demo/worlds/ionic.sdf#L32)
-property to `false`.
-
-* If there are communication/middleware related issues while running the demos, we recommend trying again [using a different RMW implementation](https://docs.ros.org/en/jazzy/How-To-Guides/Working-with-multiple-RMW-implementations.html#specifying-rmw-implementations), for example `rmw_cyclonedds_cpp`.
